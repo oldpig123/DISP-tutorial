@@ -41,12 +41,46 @@ plt.xlim([-800, 800])
 plt.savefig("exercise/multi_media_r_w_1/Alarm01_fft.png")
 
 import simpleaudio as sa
+wav.write("exercise/multi_media_r_w_1/Alarm01_new.wav", fs, data)
+print("Alarm01_new.wav is saved.")
+
+
+import pyaudio
+pa = pyaudio.PyAudio()
+fs = 44100
+chunk = 1024
+stream = pa.open(
+    format=pyaudio.paInt16,
+    channels=1,
+    rate=fs,
+    input=True,
+    frames_per_buffer=chunk
+)
+
+vocal = []
+count = 0
+print("Recording...")
+while count < 200:
+    audio_data = stream.read(chunk)
+    vocal.append(audio_data)
+    count += 1
+
+# Join the recording chunks and convert to numpy for saving
+vocal_bytes = b''.join(vocal)
+vocal_np = np.frombuffer(vocal_bytes, dtype=np.int16)
+
+wav.write("exercise/multi_media_r_w_1/test_record.wav", fs, vocal_np)
+print("test_record.wav is saved.")
+stream.close()
+
+# play the recorded audio (vocal_bytes is the correct buffer format)
+print("Playing...")
+play_obj = sa.play_buffer(vocal_bytes, 1, 2, fs)
+play_obj.wait_done()
 
 n_byte = 2
 play_data = (2**15 - 1)*data_peak_norm
 
 play_data = play_data.astype(np.int16)
-play_obj = sa.play_buffer(play_data, num_channel_1, n_byte, fs)
+play_obj = sa.play_buffer(play_data, num_channel_1, n_byte, 22050)
 play_obj.wait_done()
-
-wav.write("exercise/multi_media_r_w_1/Alarm01_new.wav", fs, data)
