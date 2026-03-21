@@ -36,3 +36,21 @@ The tutorial author likely normalized the audio to floats off-screen between Sli
 When running `simpleaudio.play_buffer` on a remote Linux server via SSH without a dedicated audio device/driver open, the `simpleaudio` C-library will often successfully finish playing the audio buffer (via X11/PulseAudio forwarding) but hit a **Segmentation Fault (Exit Code 139)** during cleanup (`play_obj.wait_done()`). 
 
 Because this forcefully kills the Python script upon completion, we must place any file-saving code (`wav.write(...)`) **above** the audio playback code so that your outputs are safely written to disk before the playback termination crashes the script.
+
+## Image Processing and Display Note (Exercise 2)
+When performing image processing tasks from Slides 11-17, interactive display functions like `cv2.imshow()` and `plt.show()` may behave unexpectedly due to environment restrictions.
+
+### "Double Qt" Conflict
+In a Python virtual environment (like the one managed by `uv`), there is often a conflict between the **private Qt version** bundled inside OpenCV (`cv2`) and the **public Qt version** needed by Matplotlib (`PyQt5`).
+- **OpenCV (`cv2`)**: Bundles its own C++ Qt shared libraries. It can often open its own `imshow` window even when other libraries fail.
+- **Matplotlib**: Requires a separate interactive backend (like `PyQt5`) to be explicitly installed in the virtual environment.
+
+### XCB Plugin Errors
+Even on a physical machine, running these GUI functions through a remote terminal or a virtual environment can trigger errors like `Could not load the Qt platform plugin "xcb"`. This occurs when the Python Qt package cannot find required Linux system libraries (e.g., `libxcb-xinerama0`) or when there is a mismatch in X11/Wayland display permissions.
+
+### Interactive Display Priority
+Based on local testing on the physical machine:
+- **`cv2.imshow()` and `cv2.waitKey()`**: Functions correctly and is the preferred way to view images interactively.
+- **`plt.show()`**: Continuously fails for image display due to the "Double Qt" conflict (using the non-interactive `Agg` backend).
+
+**Decision**: In our exercise scripts (e.g., `multi_media_r_w_2.py`), we prioritize `cv2.imshow()` for interactive viewing and skip `plt.show()` for images to prevent backend errors, while still keeping `imwrite`/`savefig` for permanent result storage.

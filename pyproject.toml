@@ -9,6 +9,7 @@ dependencies = [
     "numpy>=2.4.3",
     "opencv-python>=4.13.0.92",
     "pyaudio>=0.2.14",
+    "pyqt5>=5.15.11",
     "scipy>=1.17.1",
     "simpleaudio>=1.0.4",
 ]
