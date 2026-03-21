@@ -53,4 +53,18 @@ Based on local testing on the physical machine:
 - **`cv2.imshow()` and `cv2.waitKey()`**: Functions correctly and is the preferred way to view images interactively.
 - **`plt.show()`**: Continuously fails for image display due to the "Double Qt" conflict (using the non-interactive `Agg` backend).
 
-**Decision**: In our exercise scripts (e.g., `multi_media_r_w_2.py`), we prioritize `cv2.imshow()` for interactive viewing and skip `plt.show()` for images to prevent backend errors, while still keeping `imwrite`/`savefig` for permanent result storage.
+## Video Processing Note (Exercise 3)
+During the video processing exercises (Slides 18-22), we adapted the tutorial's instructions to better suit a professional development environment and resolve GUI conflicts.
+
+### Interactive Frame Saving (Slide 20 Workaround)
+- **Tutorial Instruction**: Recommends using `plt.show()` and manually clicking the "Save" button in the Matplotlib navigation bar to capture frames.
+- **Our Modification**: We implemented a **Keyboard Listener** using `cv2.waitKey()`. 
+- **How it works**: While the video plays, pressing the **'s'** key triggers `cv2.imwrite()`.
+- **Reason**: The interactive Matplotlib GUI often fails in virtual or remote environments (due to the "Double Qt" conflict). The keyboard-triggered method is the standard way to handle real-time user interaction in OpenCV projects.
+
+### Video Writing and Codecs (Slide 21-22)
+- **`FOURCC` (Four Character Code)**: We used `cv2.VideoWriter_fourcc(*'XVID')`. This 4-byte identifier tells the system which "Language" (Codec) to use to compress the video.
+- **Container Compatibility**: We saved the output as **`.avi`** because it is the native container for the `XVID` codec. 
+- **Flipping Logic**: We used `cv2.flip(frame, 0)` to perform the vertical flip exercise before passing the frame to `out.write()`.
+
+**Educational Takeaway**: Always initialize your `VideoWriter` **before** the loop and ensure the frame dimensions (width/height) exactly match the writer's configuration, or the output file will be empty/corrupted.
