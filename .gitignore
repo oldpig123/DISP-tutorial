@@ -1,1 +1,6 @@
 .venv
+__pycache__/
+*.bak_*
+
+!pyproject.toml
+!uv.lock
