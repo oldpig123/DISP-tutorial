@@ -1,87 +1,42 @@
-# DISP Multimedia Tutorial
-This repository contains the completed exercises for the **"Digital Information Signal Processing (DISP)"** multimedia tutorial, based on the `multimedia_python.pptx` presentation.
-
-## Tutorial Mapping
-Each script in the `exercise/` folder corresponds to a specific segment of the tutorial:
-
-| Exercise | Topic | Tutorial File | Slides |
-| :--- | :--- | :--- | :--- |
-| **Exercise 1** | Audio (WAV, FFT, Recording) | `multi_media_r_w_1.py` | 3 - 10 |
-| **Exercise 2** | Image (BMP, RGB, Brightness) | `multi_media_r_w_2.py` | 11 - 17 |
-| **Exercise 3** | Video (MP4, AVI, Flipped) | `multi_media_r_w_3.py` | 18 - 22 |
-
-## Data Sources
-- **Audio**: `VocalSignal/Alarm01.wav` (Provided by tutorial).
-- **Image**: `Pic/peppers.bmp` (Provided by tutorial).
-- **Video**: `exercise/test.mp4` (Downloaded from W3Schools for Exercise 3).
+# DISP Course: Project Portfolio
+This repository contains my implementation and technical notes for the Digital Information Signal Processing (DISP) course.
 
 ---
 
-## FFT Normalization Note (Exercise 1)
-In the multimedia python tutorial (`multimedia_python.pptx`), there is a discrepancy between the code provided on Slide 5 and the output shown on Slide 6 regarding the FFT amplitude scaling of `Alarm01.wav`.
+## 📚 Tutorial Index
+| Tutorial File | Topic | Status | Scripts |
+| :--- | :--- | :--- | :--- |
+| `multimedia_python.pptx` | Multimedia R/W & FFT | ✅ Complete | `multi_media_r_w_1, 2, 3.py` |
+| `DISP_1_new.pptx` | DISP Fundamentals | ⏳ Pending | - |
 
-- **Slide 5 (Code)**: Suggests normalizing the FFT data by dividing both by the sampling frequency (`fs`) and the maximum 16-bit integer value (`2**15` or `32768`).
-  Example snippet:
-  ```python
-  fft_data = abs(fft(wave_data[:,0])) / fs
-  fft_data = fft_data / 2**15
-  ```
-- **Slide 6 (Plot)**: Shows a peak amplitude between 2000 and 2500.
+---
 
-**Explanation**: 
-Applying both divisions results in a peak amplitude of `~0.07` for `Alarm01.wav`. To reproduce the exact plot shown on Slide 6 (which has a peak of `~2345`), we must **omit** the division by `2**15` and only divide the FFT by `fs`. 
+# 🎮 Tutorial 1: Multimedia Python (`multimedia_python.pptx`)
+Implementation of Slides 3 - 22 involving Audio, Image, and Video processing.
 
-The `fft_data / 2**15` line was likely intended as a best practice to normalize the amplitude to a `[0, 1]` range, but the tutorial author did not apply it when generating the figure on the subsequent slide.
+## 📝 Implementation Notes
 
-In our implementation (`exercise/multi_madia_r_w_1.py`), we have commented out the `/ 2**15` division to ensure our output plot precisely matches the tutorial's reference image while preserving the mathematical intent of the first normalization step.
+### FFT Normalization (Exercise 1)
+- **Discrepancy**: Slide 5 suggests dividing by `fs * 2**15`, but Slide 6 plot requires only dividing by `fs` to reach the ~2345 peak.
+- **Solution**: Omitted `2**15` division in `multi_media_r_w_1.py`.
 
-## Audio Playback and SSH Note (Exercise 1)
-There is another discrepancy regarding audio playback on Slide 7 of `multimedia_python.pptx`.
+### Audio Playback & SSH
+- **Discrepancy**: Slide 7 ignores raw `int16` data type from Slide 3.
+- **Solution**: Explicitly normalized to floats before scaling back by `32767` for `simpleaudio`.
+- **Note**: Placed file-saving above playback to avoid script termination on SSH segmentation faults.
 
-- **Slide 3 (File Reading)**: Uses `scipy.io.wavfile.read()`, which natively loads a 16-bit WAV file as an array of raw integers (`np.int16`), in the range `[-32768, 32767]`.
-- **Slide 7 (Playback)**: Instructs the student to convert the data for playback using:
-  ```python
-  wave_data = (2**15 - 1) * wave_data
-  wave_data = wave_data.astype(np.int16)
-  ```
+### Image Processing (Exercise 2)
+- **Problem**: `plt.show()` fails via virtual environment due to "Double Qt" conflicts.
+- **Solution**: Prioritized `cv2.imshow` for interactive use and `imwrite/savefig` for result storage.
+- **Learning**: Mastered float vs integer `imshow` logic (The 255-division rule).
 
-**Explanation**: 
-The logic on Slide 7 assumes that `wave_data` is a **normalized float** in the range `[-1.0, 1.0]`. If you multiply the original raw `int16` array by `32767`, it causes an extreme integer overflow resulting in a broken audio signal. 
-The tutorial author likely normalized the audio to floats off-screen between Slide 3 and Slide 7 (e.g., `wave_data = wave_data / 2**15`). In our implementation, we resolve this by performing the Slide 7 multiplication on our explicitly peak-normalized float variable (`data_peak_norm`) to safely scale it back for playback.
+### Video Processing (Exercise 3)
+- **Modification**: Replaced Matplotlib's manual "Save" button with a custom **Keyboard Listener** ('s' key) in OpenCV for better reliability in non-GUI environments.
+- **Final Result**: Created `output1.avi` featuring a vertically flipped mirror of the W3Schools sample video.
 
-### SSH Segmentation Fault Issue
-When running `simpleaudio.play_buffer` on a remote Linux server via SSH without a dedicated audio device/driver open, the `simpleaudio` C-library will often successfully finish playing the audio buffer (via X11/PulseAudio forwarding) but hit a **Segmentation Fault (Exit Code 139)** during cleanup (`play_obj.wait_done()`). 
+---
 
-Because this forcefully kills the Python script upon completion, we must place any file-saving code (`wav.write(...)`) **above** the audio playback code so that your outputs are safely written to disk before the playback termination crashes the script.
+# 📉 Tutorial 2: DISP Basics (`DISP_1_new.pptx`)
+*Notes for next section...*
 
-## Image Processing and Display Note (Exercise 2)
-When performing image processing tasks from Slides 11-17, interactive display functions like `cv2.imshow()` and `plt.show()` may behave unexpectedly due to environment restrictions.
-
-### "Double Qt" Conflict
-In a Python virtual environment (like the one managed by `uv`), there is often a conflict between the **private Qt version** bundled inside OpenCV (`cv2`) and the **public Qt version** needed by Matplotlib (`PyQt5`).
-- **OpenCV (`cv2`)**: Bundles its own C++ Qt shared libraries. It can often open its own `imshow` window even when other libraries fail.
-- **Matplotlib**: Requires a separate interactive backend (like `PyQt5`) to be explicitly installed in the virtual environment.
-
-### XCB Plugin Errors
-Even on a physical machine, running these GUI functions through a remote terminal or a virtual environment can trigger errors like `Could not load the Qt platform plugin "xcb"`. This occurs when the Python Qt package cannot find required Linux system libraries (e.g., `libxcb-xinerama0`) or when there is a mismatch in X11/Wayland display permissions.
-
-### Interactive Display Priority
-Based on local testing on the physical machine:
-- **`cv2.imshow()` and `cv2.waitKey()`**: Functions correctly and is the preferred way to view images interactively.
-- **`plt.show()`**: Continuously fails for image display due to the "Double Qt" conflict (using the non-interactive `Agg` backend).
-
-## Video Processing Note (Exercise 3)
-During the video processing exercises (Slides 18-22), we adapted the tutorial's instructions to better suit a professional development environment and resolve GUI conflicts.
-
-### Interactive Frame Saving (Slide 20 Workaround)
-- **Tutorial Instruction**: Recommends using `plt.show()` and manually clicking the "Save" button in the Matplotlib navigation bar to capture frames.
-- **Our Modification**: We implemented a **Keyboard Listener** using `cv2.waitKey()`. 
-- **How it works**: While the video plays, pressing the **'s'** key triggers `cv2.imwrite()`.
-- **Reason**: The interactive Matplotlib GUI often fails in virtual or remote environments (due to the "Double Qt" conflict). The keyboard-triggered method is the standard way to handle real-time user interaction in OpenCV projects.
-
-### Video Writing and Codecs (Slide 21-22)
-- **`FOURCC` (Four Character Code)**: We used `cv2.VideoWriter_fourcc(*'XVID')`. This 4-byte identifier tells the system which "Language" (Codec) to use to compress the video.
-- **Container Compatibility**: We saved the output as **`.avi`** because it is the native container for the `XVID` codec. 
-- **Flipping Logic**: We used `cv2.flip(frame, 0)` to perform the vertical flip exercise before passing the frame to `out.write()`.
-
-**Educational Takeaway**: Always initialize your `VideoWriter` **before** the loop and ensure the frame dimensions (width/height) exactly match the writer's configuration, or the output file will be empty/corrupted.
+- [ ] (Waiting for Discovery phase)
