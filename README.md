@@ -1,4 +1,21 @@
-# DISP-tutorial
+# DISP Multimedia Tutorial
+This repository contains the completed exercises for the **"Digital Information Signal Processing (DISP)"** multimedia tutorial, based on the `multimedia_python.pptx` presentation.
+
+## Tutorial Mapping
+Each script in the `exercise/` folder corresponds to a specific segment of the tutorial:
+
+| Exercise | Topic | Tutorial File | Slides |
+| :--- | :--- | :--- | :--- |
+| **Exercise 1** | Audio (WAV, FFT, Recording) | `multi_media_r_w_1.py` | 3 - 10 |
+| **Exercise 2** | Image (BMP, RGB, Brightness) | `multi_media_r_w_2.py` | 11 - 17 |
+| **Exercise 3** | Video (MP4, AVI, Flipped) | `multi_media_r_w_3.py` | 18 - 22 |
+
+## Data Sources
+- **Audio**: `VocalSignal/Alarm01.wav` (Provided by tutorial).
+- **Image**: `Pic/peppers.bmp` (Provided by tutorial).
+- **Video**: `exercise/test.mp4` (Downloaded from W3Schools for Exercise 3).
+
+---
 
 ## FFT Normalization Note (Exercise 1)
 In the multimedia python tutorial (`multimedia_python.pptx`), there is a discrepancy between the code provided on Slide 5 and the output shown on Slide 6 regarding the FFT amplitude scaling of `Alarm01.wav`.
