@@ -39,31 +39,31 @@ result = np.clip(result, 0, 255)
 result = result.astype(np.uint8)
 #make it graylevel
 result = cv2.cvtColor(result, cv2.COLOR_BGR2GRAY)
-#save result as result_laplacian_manual_convolution.bmp
-cv2.imwrite("exercise/DISP_1/result_laplacian_manual_convolution.bmp", result)
+#save result as result_laplacian_manual_convolution.png
+cv2.imwrite("exercise/DISP_1/result_laplacian_manual_convolution.png", result)
 
 
 # 2. Using cv2.filter2D
 result = laplacian_operator(img, laplacian)
-# save result as result_laplacian_cv_convolution.bmp
-cv2.imwrite("exercise/DISP_1/result_laplacian_cv_convolution.bmp", result)
+# save result as result_laplacian_cv_convolution.png
+cv2.imwrite("exercise/DISP_1/result_laplacian_cv_convolution.png", result)
 
 # horizontal sobel operator
 sobel_horizontal = np.array([[1,0,-1],[2,0,-2],[1,0,-1]])
 result = sobel_operator(img, sobel_horizontal)
-cv2.imwrite("exercise/DISP_1/result_horizontal_sobel.bmp", result)
+cv2.imwrite("exercise/DISP_1/result_horizontal_sobel.png", result)
 
 # vertical sobel operator
 sobel_vertical = np.array([[1,2,1],[0,0,0],[-1,-2,-1]])
 result = sobel_operator(img, sobel_vertical)
-cv2.imwrite("exercise/DISP_1/result_vertical_sobel.bmp", result)
+cv2.imwrite("exercise/DISP_1/result_vertical_sobel.png", result)
 
 # 135 degree sobel operator
 sobel_135 = np.array([[0,-1,-2],[1,0,-1],[2,1,0]])
 result = sobel_operator(img, sobel_135)
-cv2.imwrite("exercise/DISP_1/result_135_sobel.bmp", result)
+cv2.imwrite("exercise/DISP_1/result_135_sobel.png", result)
 
 # 45 degree sobel operator
 sobel_45 = np.array([[-2,-1,0],[-1,0,1],[0,1,2]])
 result = sobel_operator(img, sobel_45)
-cv2.imwrite("exercise/DISP_1/result_45_sobel.bmp", result)
+cv2.imwrite("exercise/DISP_1/result_45_sobel.png", result)

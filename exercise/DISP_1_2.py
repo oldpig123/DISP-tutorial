@@ -43,9 +43,9 @@ darken_cv = brightness_adjustment_cv2(img, darken_factor)
 lighten_manual = brightness_adjustment_manual(img, lighten_factor)
 darken_manual = brightness_adjustment_manual(img, darken_factor)
 
-cv2.imwrite("exercise/DISP_1/lighten_cv.bmp", lighten_cv)
-cv2.imwrite("exercise/DISP_1/darken_cv.bmp", darken_cv)
-cv2.imwrite("exercise/DISP_1/lighten_manual.bmp", lighten_manual)
-cv2.imwrite("exercise/DISP_1/darken_manual.bmp", darken_manual)
+cv2.imwrite("exercise/DISP_1/lighten_cv.png", lighten_cv)
+cv2.imwrite("exercise/DISP_1/darken_cv.png", darken_cv)
+cv2.imwrite("exercise/DISP_1/lighten_manual.png", lighten_manual)
+cv2.imwrite("exercise/DISP_1/darken_manual.png", darken_manual)
 
 
