@@ -8,6 +8,7 @@ This repository contains my implementation and technical notes for the Digital I
 | :--- | :--- | :--- | :--- |
 | `multimedia_python.pptx` | Multimedia R/W & FFT | ✅ Complete | `multi_media_r_w_1, 2, 3.py` |
 | `DISP_1_new.pptx` | DISP Fundamentals | ✅ Complete | `exercise/DISP_1_1.py`, `1_2.py`, `1_3.py` |
+| `DISP_2_new.pptx` | Discrete Fourier Transform | 🏃 In Progress | `exercise/DISP_2_1.py` |
 
 ---
 
@@ -72,5 +73,22 @@ We implemented NRMSE and PSNR to measure the mathematical "Distance" between the
 - **Verifying "Reasonableness"**:
     - **Laplacian (7.1 dB PSNR)**: Correctly indicates a massive difference between a photo and its edges.
     - **Darken (18.1 dB PSNR)**: Higher quality than lightening (14.2 dB) in this test case.
+
+# 🌊 Tutorial 3: Discrete Fourier Transform (`DISP_2_new.pptx`)
+Advanced Signal Analysis and Frequency Domain Filtering.
+
+## 📝 Implementation Notes
+
+### 1. Structural Similarity Index (SSIM) (Slide 23)
+Expansion of the metrics suite to include human-centric visual comparison.
+
+- **The "Structural" Advantage**: Unlike PSNR (which only sees individual pixel "Noise"), SSIM measures **Luminance**, **Contrast**, and **Structure**. 
+- **The "Lighten" Paradox**: Our `lighten_cv` image had a "Poor" PSNR of ~14 dB, but a "High" SSIM of **0.92**. This proves that while the brightness changed (MSE error), the *textures and shapes* of the peppers were perfectly preserved.
+- **Implementation Strategy**:
+    - **Total Variance/Covariance**: Calculated via three-layer loops (H x W x C) for absolute bit-depth safety and clarity.
+    - **Stability Constants**: Used $C_1=255$ and $C_2=255$ (derived from the $c_1 = \sqrt{1/L}$ tutorial suggestion) to ensure robust division.
+- **Trend Verification**:
+    - **Laplacian (SSIM 0.004)**: Correctly identifies near-zero similarity between a photo and its outlines.
+    - **Darken (SSIM 0.82)**: Shows significant structural degradation compared to lightening, likely due to increased "Clipping" of dark textures.
 
 ---
