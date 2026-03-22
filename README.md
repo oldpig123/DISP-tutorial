@@ -53,4 +53,15 @@ We implemented six directional filters: **Laplacian**, **Horizontal Sobel**, **V
 - **Normalization Constants**: We followed the Tutorial's Slide 5-9 formulas exactly by dividing the result of Sobel by **`4.0`** and the Laplacian by **`8.0`**.
 - **Visibility (`C * abs(E)`)**: Because normalized edges are faint, we used a scaling constant `C = 10.0` or `15.0` to make the outlines high-contrast.
 
+### 2. YCbCr Brightness Adjustment (Exercise 2, Slides 27-29)
+We implemented a brightness controller that works in the **YCbCr** colorspace to avoid the color distortion (washout) seen in BGR-only lightening.
+
+- **The "Transpose Identity"**: 
+    - **Problem**: Slide 22 shows $\mathbf{YCC} = \mathbf{M} \cdot \mathbf{BGR}$ (Matrix on left). But NumPy treats a 2D pixel as a **Row Vector**.
+    - **Solution**: According to the identity $(\mathbf{M} \mathbf{v})^T = \mathbf{v}^T \mathbf{M}^T$, we placed the image on the left and transposed the matrix: `np.dot(Image, Matrix.T)`.
+- **The 128-Shift Logic**: 
+    - **Issue**: Standard Cb/Cr storage uses a `+128` offset to keep values positive for 8-bit files.
+    - **Insight**: For manual math, we stayed in **float64** without the shift. This kept the color data "Pure" (allowing negative values) until the final BGR reconstruction step, avoiding the "Invalid sqrt" and "Data Loss" traps.
+- **Color Order Strategy**: We stacked channels as `(r, g, b)` to match Slide 22's matrices, then flipped them back to `(b, g, r)` at the end for OpenCV compatibility.
+
 ---
