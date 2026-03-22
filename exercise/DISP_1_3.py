@@ -47,7 +47,7 @@ print("PSNR between lighten_cv and darken_cv:", PSNR(img_lighten_cv, img_darken_
 # PSNR of Laplacian: 7.125071912666955
 # NRMSE of lighten_cv: 0.3851737502144378
 # PSNR of lighten_cv: 14.21109771339072
-# NRMSE of darken_cv: 0.24665444455506566
-# PSNR of darken_cv: 18.082452443306117
-# NRMSE between lighten_cv and darken_cv: 0.47345438075687984
-# PSNR between lighten_cv and darken_cv: 10.031946875149307
+# NRMSE of darken_cv: 0.395420139081962
+# PSNR of darken_cv: 13.983055664324983
+# NRMSE between lighten_cv and darken_cv: 0.5784730974074892
+# PSNR between lighten_cv and darken_cv: 8.291846334357892

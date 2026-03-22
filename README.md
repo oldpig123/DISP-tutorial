@@ -7,7 +7,7 @@ This repository contains my implementation and technical notes for the Digital I
 | Tutorial File | Topic | Status | Scripts |
 | :--- | :--- | :--- | :--- |
 | `multimedia_python.pptx` | Multimedia R/W & FFT | ✅ Complete | `multi_media_r_w_1, 2, 3.py` |
-| `DISP_1_new.pptx` | DISP Fundamentals | ⏳ Pending | - |
+| `DISP_1_new.pptx` | DISP Fundamentals | ✅ Complete | `exercise/DISP_1_1.py`, `1_2.py`, `1_3.py` |
 
 ---
 
@@ -63,5 +63,14 @@ We implemented a brightness controller that works in the **YCbCr** colorspace to
     - **Issue**: Standard Cb/Cr storage uses a `+128` offset to keep values positive for 8-bit files.
     - **Insight**: For manual math, we stayed in **float64** without the shift. This kept the color data "Pure" (allowing negative values) until the final BGR reconstruction step, avoiding the "Invalid sqrt" and "Data Loss" traps.
 - **Color Order Strategy**: We stacked channels as `(r, g, b)` to match Slide 22's matrices, then flipped them back to `(b, g, r)` at the end for OpenCV compatibility.
+
+### 3. Signal Metrics (Exercise 3, Slides 32-34)
+We implemented NRMSE and PSNR to measure the mathematical "Distance" between the original and processed images.
+
+- **The 3-Layer Loop**: We implemented the summation as a triple-loop (Height x Width x Color) to ensure mathematical alignment with the theory. 
+- **The "Data Type" Safety**: We learned to cast to `float` before subtraction to prevent `uint8` wrap-around errors. 
+- **Verifying "Reasonableness"**:
+    - **Laplacian (7.1 dB PSNR)**: Correctly indicates a massive difference between a photo and its edges.
+    - **Darken (18.1 dB PSNR)**: Higher quality than lightening (14.2 dB) in this test case.
 
 ---

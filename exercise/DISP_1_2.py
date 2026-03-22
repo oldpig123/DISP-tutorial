@@ -37,7 +37,7 @@ def brightness_adjustment_manual(img, alpha):
 
 img = cv2.imread("Pic/peppers.bmp")
 lighten_factor = 0.5
-darken_factor = 1.5
+darken_factor = 2.0
 lighten_cv = brightness_adjustment_cv2(img, lighten_factor)
 darken_cv = brightness_adjustment_cv2(img, darken_factor)
 lighten_manual = brightness_adjustment_manual(img, lighten_factor)
