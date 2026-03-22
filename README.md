@@ -37,6 +37,20 @@ Implementation of Slides 3 - 22 involving Audio, Image, and Video processing.
 ---
 
 # 📉 Tutorial 2: DISP Basics (`DISP_1_new.pptx`)
-*Notes for next section...*
+Implementation of Slides 3 - 40 involving Edge Detection and Signal Metrics.
 
-- [ ] (Waiting for Discovery phase)
+## 📝 Implementation Notes
+
+### 1. Edge Detection (Exercise 1, Slides 3-9)
+We implemented six directional filters: **Laplacian**, **Horizontal Sobel**, **Vertical Sobel**, and **Diagonal Sobels (45°/135°)**.
+
+- **The "Student" Approach**: We first implemented the Laplacian manually using nested loops. This proved that we understood the mathematical "Stencil" (Kernel) sliding over the image.
+- **The "Border Problem"**: When sliding a 3x3 kernel, the window "hangs off" the edge of the image. We solved this by adjusting the loop ranges to `range(1, height-1)`, which skips the 1-pixel border.
+- **The "Bit-Depth Trap"**: 
+    - **Issue**: Gradients produce negative numbers (e.g., Light-to-Dark transitions).
+    - **Trap**: Standard 8-bit images (`uint8`) cannot store negatives—they "wrap around" (e.g., -10 becomes 246), creating noise.
+    - **Solution**: We performed all calculations in **`CV_64F` (64-bit float)** and used **`np.abs(result)`** before converting back to `uint8`.
+- **Normalization Constants**: We followed the Tutorial's Slide 5-9 formulas exactly by dividing the result of Sobel by **`4.0`** and the Laplacian by **`8.0`**.
+- **Visibility (`C * abs(E)`)**: Because normalized edges are faint, we used a scaling constant `C = 10.0` or `15.0` to make the outlines high-contrast.
+
+---
