@@ -14,12 +14,14 @@ while cap.isOpened():
     if not ret:
         print("Can't receive frame (stream end?). Exiting ...")
         break
-    # cv2.imshow("frame", frame)
-    key = -1 # cv2.waitKey(delay)
-    
-    # Auto-save first frame for portfolio artifact, then exit
-    cv2.imwrite(f"exercise/multi_media_r_w_3/test_{frame_num}.png", frame)
-    break
+    cv2.imshow("frame", frame)
+    key =cv2.waitKey(delay)
+
+    if key == ord("q"):
+        break
+    if key == ord("s"):
+        cv2.imwrite(f"exercise/multi_media_r_w_3/test_{frame_num}.png", frame)
+        frame_num += 1
 
 cap.release()
 cv2.destroyAllWindows()
@@ -45,12 +47,10 @@ while cap.isOpened():
     
     frame = cv2.flip(frame,0)
     output1.write(frame)
-    # cv2.imshow("frame", frame)
-    key = -1 # cv2.waitKey(delay)
+    cv2.imshow("frame", frame)
+    key =cv2.waitKey(delay)
     if key == ord("q"):
         break
-    # Break early in headless mode for artifact generation
-    break
 
 cap.release()
 output1.release()
