@@ -106,7 +106,7 @@ Exploration of Gaussian-derivative filters for 1D signal boundary detection.
     - **Small $\sigma$ (1.0)**: Short impulse response (Slide 15). Sharp localization but sensitive to noise.
     - **Large $\sigma$ (5.0)**: Long impulse response (Slide 16). Strong noise suppression but lower spatial precision.
 - **Symmetry & Centering**: Implemented a zero-centered filter vector ($n \in [-L, L]$) to ensure edges are correctly aligned without time-lags.
-- **Normalization**: Applied normalization constants and grid layouts to compare results across varied noise levels ($An=0.1$ to $0.5$).
-- **Final Result**: Generated `edge_filter.png` (3x3 grid) demonstrating robust edge extraction under severe noise.
+- **Normalization**: Applied normalization constants and grid layouts to compare results across varied noise levels ($An=0.1, 0.5, 1.0$).
+- **Final Result**: Generated a high-resolution **4x4 grid** (`edge_filter.png`) demonstrating robust edge extraction even under extreme noise conditions ($An=1.0$).
 
 ---

@@ -38,23 +38,23 @@ def C_function(x, sigma):
 x = signal_generation()
 
 # test with 2 different An and 2 different sigma
-An_list = [0.1, 0.5]
+An_list = [0.1, 0.5, 1.0]
 sigma_list = [0.1, 1.0, 5.0]
 n = np.arange(-30, 101)
 
 plt.figure(figsize=(24, 18), dpi = 300)
-plt.subplot(3,4,1)
+plt.subplot(4,4,1)
 plt.stem(n, x)
 plt.title("original signal")
-plt.subplot(3,4,2)
+plt.subplot(4,4,2)
 x2 = np.convolve(x, edge_filter(x, sigma_list[0]), mode='same')
 plt.stem(n, x2)
 plt.title("no noise, sigma="+str(sigma_list[0]))
-plt.subplot(3,4,3)
+plt.subplot(4,4,3)
 x3 = np.convolve(x, edge_filter(x, sigma_list[1]), mode='same')
 plt.stem(n, x3)
 plt.title("no noise, sigma="+str(sigma_list[1]))
-plt.subplot(3,4,4)
+plt.subplot(4,4,4)
 x4 = np.convolve(x, edge_filter(x, sigma_list[2]), mode='same')
 plt.stem(n, x4)
 plt.title("no noise, sigma="+str(sigma_list[2]))
@@ -63,14 +63,14 @@ for An in An_list:
     noise = noise_func(n, An)
     # signal with noise
     x1 = x + noise
-    plt.subplot(3,4,An_list.index(An)*4+5)
+    plt.subplot(4,4,An_list.index(An)*4+5)
     plt.stem(n, x1)
     plt.title("An="+str(An)+", no filter apply")
     for sigma in sigma_list:
         # signal with noise and filter
         x2 = np.convolve(x1, edge_filter(x, sigma), mode='same')
         # plot the signal with noise #index(An) and filter #index(sigma)
-        plt.subplot(3,4,An_list.index(An)*4+sigma_list.index(sigma)+1+5)
+        plt.subplot(4,4,An_list.index(An)*4+sigma_list.index(sigma)+1+5)
         plt.stem(n, x2)
         plt.title("An="+str(An)+", sigma="+str(sigma))
 
