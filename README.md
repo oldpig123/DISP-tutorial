@@ -109,6 +109,9 @@ Exploration of Gaussian-derivative filters for 1D signal boundary detection.
 - **The "Sum of Zero" Immunity**: Discovered that because the edge detector sums to 0, it is naturally immune to "Zero-Padding" artifacts at the boundaries if the signal is zero there (unlike the smoother).
 - **Final Result**: Generated the filter shapes (`edge_filter.png`) and a 4x4 comparison grid (`edge_filter_applied.png`) demonstrating robust edge extraction under $An=1.0$ noise.
 
+### 4. Signal Smoothing & Trend Extraction (Slide 22)
+Recovery of slow-moving Trends from high-frequency Noise.
+
 - **Scale Parameter**: Confirmed that **smaller $\sigma$** captures "Long Term Features" (heavy smoothing), while **larger $\sigma$** captures "Short Term" details (Slide 22). 
 - **The "Boundary Collapse" Artefact**: Discovered that at $\sigma=0.1$, the extracted trend "collapses" toward zero at the head and tail. This is because a Smoother (Sum of 1) averages the non-zero trend with the zero-padding at the boundaries.
 - **Normalization**: Enforced $\sum h = 1$ to prevent trend inflation and "Modern Art" distortion at low $\sigma$.
