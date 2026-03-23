@@ -6,7 +6,7 @@ This repository contains my implementation and technical notes for the Digital I
 ## 📚 Tutorial Index
 | Tutorial File | Topic | Status | Scripts |
 | :--- | :--- | :--- | :--- |
-| `multimedia_python.pptx` | Multimedia R/W & FFT | ✅ Complete | `multi_media_r_w_1, 2, 3.py` |
+| `multimedia_python.pptx` | Multimedia R/W & FFT | ✅ Complete | `exercise/multi_media_r_w_1, 2, 3.py` |
 | `DISP_1_new.pptx` | DISP Fundamentals | ✅ Complete | `exercise/DISP_1_1.py`, `1_2.py`, `1_3.py` |
 | `DISP_2_new.pptx` | Discrete Fourier Transform | 🏃 In Progress | `exercise/DISP_2_1.py` |
 
@@ -98,5 +98,15 @@ Spectral decomposition of audio signals using the Fast Fourier Transform (FFT).
 - **Discrete Accuracy**: Prioritized `np.arange` over `np.linspace` to preserve exact $fs/N$ spectral step sizes, ensuring theoretical alignment with Discrete Signal Processing rules.
 - **The `fftshift` Mechanic**: Leveraged `np.fft.fftshift` to move the zero-frequency (DC) component to the center of the plot. This provides an intuitive view of the conjugate-symmetric spectrum (negative and positive frequencies).
 - **Final Result**: Generated `fft_diagram.png` showing clear spectral peaks at the characteristic frequencies of the alarm signal.
+
+### 3. Signal Edge Detection (Slides 15-17)
+Exploration of Gaussian-derivative filters for 1D signal boundary detection.
+
+- **Impulse Response Scale**: Verified that $\sigma$ controls the filter's "vision."
+    - **Small $\sigma$ (1.0)**: Short impulse response (Slide 15). Sharp localization but sensitive to noise.
+    - **Large $\sigma$ (5.0)**: Long impulse response (Slide 16). Strong noise suppression but lower spatial precision.
+- **Symmetry & Centering**: Implemented a zero-centered filter vector ($n \in [-L, L]$) to ensure edges are correctly aligned without time-lags.
+- **Normalization**: Applied normalization constants and grid layouts to compare results across varied noise levels ($An=0.1$ to $0.5$).
+- **Final Result**: Generated `edge_filter.png` (3x3 grid) demonstrating robust edge extraction under severe noise.
 
 ---
