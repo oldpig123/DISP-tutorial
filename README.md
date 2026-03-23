@@ -91,4 +91,12 @@ Expansion of the metrics suite to include human-centric visual comparison.
     - **Laplacian (SSIM 0.004)**: Correctly identifies near-zero similarity between a photo and its outlines.
     - **Darken (SSIM 0.82)**: Shows significant structural degradation compared to lightening, likely due to increased "Clipping" of dark textures.
 
+### 2. WAV Spectrum Analysis (Slide 23)
+Spectral decomposition of audio signals using the Fast Fourier Transform (FFT).
+
+- **Frequency Mapping**: Implemented the bin-to-Hz transformation: $f = m \cdot \frac{fs}{N}$.
+- **Discrete Accuracy**: Prioritized `np.arange` over `np.linspace` to preserve exact $fs/N$ spectral step sizes, ensuring theoretical alignment with Discrete Signal Processing rules.
+- **The `fftshift` Mechanic**: Leveraged `np.fft.fftshift` to move the zero-frequency (DC) component to the center of the plot. This provides an intuitive view of the conjugate-symmetric spectrum (negative and positive frequencies).
+- **Final Result**: Generated `fft_diagram.png` showing clear spectral peaks at the characteristic frequencies of the alarm signal.
+
 ---
