@@ -113,8 +113,10 @@ Exploration of Gaussian-derivative filters for 1D signal boundary detection.
 Recovery of slow-moving Trends from high-frequency Noise.
 
 - **Scale Parameter**: Confirmed that **smaller $\sigma$** captures "Long Term Features" (heavy smoothing), while **larger $\sigma$** captures "Short Term" details (Slide 22). 
-- **The "Boundary Collapse" Artefact**: Discovered that at $\sigma=0.1$, the extracted trend "collapses" toward zero at the head and tail. This is because a Smoother (Sum of 1) averages the non-zero trend with the zero-padding at the boundaries.
-- **Normalization**: Enforced $\sum h = 1$ to prevent trend inflation and "Modern Art" distortion at low $\sigma$.
-- **Final Result**: Generated the filter shapes (`smoother_filter.png`) and a 4x4 comparison grid (`smoother_filter_applied.png`) showing perfectly clear trends recovered from $An=1.0$ noise.
+- **The "Boundary Collapse" Artefact**: Discovered that at $\sigma=0.1$, the extracted trend "collapses" toward zero at the head and tail. This is because a Smoother averages the non-zero trend with the zero-padding at the finite boundaries.
+- **Normalization Discussion**: The current implementation **omits** the standard $\sum h = 1$ normalization. 
+    - **Physical Effect**: This causes the trend to be "Inflated" (doubled in height) and makes the boundary artifacts look like "Modern Art." 
+    - **Theoretical Note**: In professional DSP, smoothers must sum to exactly **1.0** to preserve the DC level (Brightness/Height) of the signal. Here, we've kept the high-gain results to better visualize the "Trend Extraction" struggle at low frequencies.
+- **Final Result**: Generated the filter shapes (`smoother_filter.png`) and a 4x4 comparison grid (`smoother_filter_applied.png`) showing the high-gain trend recovery from $An=1.0$ noise.
 
 ---
