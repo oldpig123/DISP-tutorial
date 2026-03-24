@@ -138,3 +138,15 @@ Non-Linear, Edge-Preserving Smoothing.
 - **Final Result**: Generated `signal_after_bilateral_filter.png` showing robust noise reduction while maintaining a perfectly sharp square-wave transition.
 
 ---
+
+### 2. Matched Filter (Slide 15 & 30)
+Locating hidden patterns via Cross-Correlation.
+
+- **The "Mirror" Trick**: To perform correlation using the `np.convolve` function, we must use a **Time-Reversed** version of the target pattern (`target[::-1]`).
+- **Mode Comparison**:
+    - **`mode='valid'`**: Returns only full-overlap results. The peak index corresponds exactly to the **Start** of the pattern.
+    - **`mode='same'`**: Pads the signal to maintain length. The peak index aligns with the **Center** of the pattern.
+- **Verification**: Detection of the "Positive Ramp" (indices 60-79) with $L=20$ and $A=1$ yielded a peak at index **70** (Perfect center alignment: $60 + L/2 = 70$).
+- **Final Result**: Generated `match_finding.png` showing the original signal, the target, and the sharp detection peak.
+
+---
