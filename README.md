@@ -9,6 +9,7 @@ This repository contains my implementation and technical notes for the Digital I
 | `multimedia_python.pptx` | Multimedia R/W & FFT | ✅ Complete | `exercise/multi_media_r_w_1, 2, 3.py` |
 | `DISP_1_new.pptx` | DISP Fundamentals | ✅ Complete | `exercise/DISP_1_1.py`, `1_2.py`, `1_3.py` |
 | `DISP_2_new.pptx` | Discrete Fourier Transform | ✅ Complete | `exercise/DISP_2_1, 2, 3, 4.py` |
+| `DISP_3_new.pptx` | Advanced Image Processing | 🏃 In Progress | `exercise/DISP_3_1.py` |
 
 ---
 
@@ -118,5 +119,22 @@ Recovery of slow-moving Trends from high-frequency Noise.
     - **Physical Effect**: This causes the trend to be "Inflated" (doubled in height) and makes the boundary artifacts look like "Modern Art." 
     - **Theoretical Note**: In professional DSP, smoothers must sum to exactly **1.0** to preserve the DC level (Brightness/Height) of the signal. Here, we've kept the high-gain results to better visualize the "Trend Extraction" struggle at low frequencies.
 - **Final Result**: Generated the filter shapes (`smoother_filter.png`) and a 4x4 comparison grid (`smoother_filter_applied.png`) showing the high-gain trend recovery from $An=1.0$ noise.
+
+---
+
+# 🖼️ Tutorial 4: Advanced Image Processing (`DISP_3_new.pptx`)
+Implementation of Slides 3 - 31 involving Non-Linear filtering and Morphology.
+
+## 📝 Implementation Notes
+
+### 1. Bilateral Filter (Slide 7 & 30)
+Non-Linear, Edge-Preserving Smoothing.
+
+- **Weighting Paradox**: Unlike standard convolution (Linear/Shift-Invariant), the Bilateral filter is **Adaptive**. Its weights change for every pixel based on the signal's local intensity.
+- **Dual Kernels**:
+    - **Space ($k_1=0.3$)**: Penalizes distance from the center pixel.
+    - **Range ($k_2=5.0$)**: Penalizes intensity difference ($|x[n]-x[m]|$). This prevents the filter from "averaging across" sharp edges.
+- **Boundary Handling**: Implemented **Adaptive Indexing** (`max/min`) to ensure the sliding window remains within array bounds without leaving zero-padding artifacts.
+- **Final Result**: Generated `signal_after_bilateral_filter.png` showing robust noise reduction while maintaining a perfectly sharp square-wave transition.
 
 ---
