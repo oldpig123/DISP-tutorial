@@ -169,4 +169,22 @@ Creating distance-dependent perception by blending the **Low-Pass** components o
 ---
 
 ### 4. Image Morphology (Exercise 4, Slide 31)
-[IN PROGRESS] Exploring shape-based filtering (Erosion, Dilation, Opening, Closing). 
+Implementation of **Erosion**, **Dilation**, **Opening**, and **Closing** with $k=3$ iterations.
+
+- **Grayscale Principle**: We implemented Morphology as a **Minimum/Maximum** filter (Slide 27), allowing it to operate on 8-bit grayscale images like Lena.
+- **The "Chain Rule"**: We verified that 3 iterations of a $3 \times 3$ kernel effectively creates a $7 \times 7$ window ($2k+1$).
+- **Vectorization Upgrade**: 
+    - **Problem**: Nested Python loops for 14M operations took over 10 seconds.
+    - **Solution**: We implemented **`sliding_window_view`** to shift the loops into optimized C code.
+    - **Indexing lesson**: We learned that to apply a mask to a 4D windowed array, we must use **`[:, :, kernel == 1]`** to isolate the window axes from the spatial axes.
+- **Visual Interpretation**:
+    - **Erosion**: Shrinks highlights (Min filter).
+    - **Dilation**: Expands highlights (Max filter).
+    - **Opening**: Removes small bright noise (Erode then Dilate).
+    - **Closing**: Fills dark gaps and cracks (Dilate then Erode).
+- **Final Result**: Generated `morphological_operations.png`.
+
+---
+
+# 🏁 Portfolio Milestone Complete
+All exercises from Tutorial 1 through Tutorial 4 have been successfully implemented, verified, and documented. 
