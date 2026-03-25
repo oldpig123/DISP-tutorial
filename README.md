@@ -149,4 +149,24 @@ Locating hidden patterns via Cross-Correlation.
 - **Verification**: Detection of the "Positive Ramp" (indices 60-79) with $L=20$ and $A=1$ yielded a peak at index **70** (Perfect center alignment: $60 + L/2 = 70$).
 - **Final Result**: Generated `match_finding.png` showing the original signal, the target, and the sharp detection peak.
 
+### 3. Fourier Hybrid Images (Exercise 3, Slide 30)
+Creating distance-dependent perception by blending the **Low-Pass** components of Lena and the **High-Pass** components of Barbara.
+
+- **The "No-Loop" Implementation (Vectorization)**: 
+    - We avoided slow Python `for` loops by using **`np.ogrid`** to create a 2D coordinate grid. 
+    - This allowed us to calculate the distance of every pixel from the center in a single vectorized CPU operation.
+- **The "Color Axis" consistency**:
+    - **Insight**: By default, `np.fft.fft2` on a 3-channel (H, W, 3) image operates on the last two axes (Width, Channels), which scrambles the spatial data.
+    - **Rule**: We explicitly used **`axes=(0, 1)`** for all four steps (`fft2`, `ifft2`, `fftshift`, `ifftshift`) to ensure the 2D transform correctly targeted the spatial dimensions while preserving the color channels.
+- **Mathematical Principles (Circle vs. Diamond)**:
+    - **Euclidean (Circle)**: $\sqrt{x^2 + y^2} \leq L$. Area = $\pi L^2$. Best for natural, rotationally symmetric blurring.
+    - **Manhattan (Diamond)**: $|x| + |y| \leq L$. Area = $2 L^2$. This is the "Professor's Formula" from the slide diagram.
+    - **Learning**: At the same $L$, the Diamond contains **~37% less information** than the Circle, resulting in a much stronger "Blur" effect.
+- **Visualization (The Log Scale)**:
+    - Because the DC component is millions of times stronger than the high frequencies, a raw spectrum looks black. We used **`np.log(1 + np.abs(F))`** to compress the dynamic range for human visibility.
+- **Final Result**: Generated `merge_img.png` featuring a 3x3 diagnostic grid showing the spectral masks and the final "Shape-Shifting" hybrid.
+
 ---
+
+### 4. Image Morphology (Exercise 4, Slide 31)
+[IN PROGRESS] Exploring shape-based filtering (Erosion, Dilation, Opening, Closing). 
