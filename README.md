@@ -139,9 +139,15 @@ Non-Linear, Edge-Preserving Smoothing.
 
 ---
 
-### 2. Matched Filter (Slide 15 & 30)
-Locating hidden patterns via Cross-Correlation.
+### 2. Matched Filter (Exercise 2, Slide 15-16)
+Implementation of pattern detection using **Cross-Correlation**.
 
+- **Initial Approach**: Simple `np.convolve` (Direct product sum). 
+    - *Weakness*: Easily fooled by high-amplitude regions (like constant white blocks).
+- **Refined Approach**: **Normalized Cross-Correlation (NCC)**.
+    - **Local Mean Subtraction**: For every window, we subtract the average intensity. This makes the filter **Intensity-Invariant** (it only sees the "shape", not the "brightness").
+    - **Energy Normalization**: Dividing by the signal energy $\sqrt{\sum x^2}$ ensures the result stays between -1.0 and 1.0.
+- **Final Result**: The detector now finds the correct ramp with a perfect **1.0 score** and ignores the high-amplitude square wave (score 0.0). Generated `match_finding_normalized_cross_correlation.png`.
 - **The "Mirror" Trick**: To perform correlation using the `np.convolve` function, we must use a **Time-Reversed** version of the target pattern (`target[::-1]`).
 - **Mode Comparison**:
     - **`mode='valid'`**: Returns only full-overlap results. The peak index corresponds exactly to the **Start** of the pattern.

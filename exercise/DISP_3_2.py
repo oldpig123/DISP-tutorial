@@ -34,6 +34,40 @@ def match_finding(signal, target):
     max_index = np.argmax(result)
     return result, max_index
 
+# match finding w/ normalized cross-correlation and local mean
+# window boundary $\tau_1 = -(L/2), \tau_2 = L/2$
+# window width = L
+def match_finding_normalized_cross_correlation(signal, target):
+    L = len(target)
+    tau_1 = -L//2
+    tau_2 = L//2
+    
+    # pad signal with L/2 zeros at both ends
+    signal_pad = np.pad(signal, (L//2, L//2), mode='constant')
+
+    # local mean of target is the mean of target
+    target_mean = np.mean(target)
+    target_centered = target - target_mean
+    target_energy = np.sqrt(np.sum(target_centered**2))
+    
+    result = np.zeros(len(signal))
+
+    for n in range(len(signal)):
+        # get the window of signal
+        window = signal_pad[n:n+L]
+        # get the local mean of window
+        window_mean = np.mean(window)
+        window_centered = window - window_mean
+        # get the local std deviation of window
+        window_energy = np.sqrt(np.sum(window_centered**2))
+        # set result = 0 if window energy =0
+        if window_energy == 0:
+            result[n] = 0
+        else:
+            result[n] = np.sum(window_centered * target_centered) / (window_energy * target_energy)
+    return result, np.argmax(result)
+        
+
 
 # plot the signal
 signal = signal_generation(L, amplitude)
@@ -42,7 +76,8 @@ signal = signal_generation(L, amplitude)
 target = np.linspace(-amplitude, amplitude, L)
 
 # find the match
-result, max_index = match_finding(signal, target)
+# result, max_index = match_finding(signal, target)
+result, max_index = match_finding_normalized_cross_correlation(signal, target) # normalized cross-correlation and local mean
 
 # plot the signal in same figure
 plt.figure(figsize=(12, 4), dpi = 300)
@@ -58,5 +93,6 @@ plt.stem(result)
 plt.title("result with max index at " + str(max_index))
 #tight layout
 plt.tight_layout()
-plt.savefig("exercise/DISP_3/match_finding.png")
+# plt.savefig("exercise/DISP_3/match_finding.png")
+plt.savefig("exercise/DISP_3/match_finding_normalized_cross_correlation.png") # normalized cross-correlation and local mean
 plt.clf()
