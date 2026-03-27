@@ -9,7 +9,8 @@ This repository contains my implementation and technical notes for the Digital I
 | `multimedia_python.pptx` | Multimedia R/W & FFT | ✅ Complete | `exercise/multi_media_r_w_1, 2, 3.py` |
 | `DISP_1_new.pptx` | DISP Fundamentals | ✅ Complete | `exercise/DISP_1_1.py`, `1_2.py`, `1_3.py` |
 | `DISP_2_new.pptx` | Discrete Fourier Transform | ✅ Complete | `exercise/DISP_2_1, 2, 3, 4.py` |
-| `DISP_3_new.pptx` | Advanced Image Processing | 🏃 In Progress | `exercise/DISP_3_1.py` |
+| `DISP_3_new.pptx` | Advanced Image Processing | ✅ Complete | `exercise/DISP_3_1.py`, `3_2.py`, `3_4.py` |
+| `DISP_4_new.pptx` | Advanced Topics I | 🏃 In Progress | `exercise/DISP_4_1.py` |
 
 ---
 
@@ -192,5 +193,35 @@ Implementation of **Erosion**, **Dilation**, **Opening**, and **Closing** with $
 
 ---
 
+
+---
+
+# 🔬 Tutorial 5: Advanced Topics I (`DISP_4_new.pptx`)
+Implementation of Slides 3 - 22 involving Image Restoration, PCA, and Gram-Schmidt.
+
+## 📝 Implementation Notes
+
+### 1. Image Restoration (Exercise 1, Slides 3-20)
+Recovery of a degraded image ($y = x * k + noise$) using a regularized inverse filter (Equalizer).
+
+- **The "Page 5" Padding Logic**:
+    - **Challenge**: To perform FFT-based restoration, the kernel must be the same size as the image ($512 \times 512$).
+    - **The Trap**: Placing the kernel in the center causes a spatial shift in the output.
+    - **Solution**: Implemented the **Quadrant Wrapping** method from Page 5. We "split" the centered $21 \times 21$ kernel into 4 corners of the large matrix. This ensures the peak is at index `(0,0)`, preventing any phase shift (ghosting) in Lena.
+- **The Equalizer (Wiener-style)**:
+    - **Formula**: $\hat{X} = Y \cdot \frac{K^*}{|H|^2 + C}$.
+    - **The Trade-off**: 
+        - **Small $C$ (0.01)**: High sharpness but high noise amplification (looks like sandpaper).
+        - **Large $C$ (0.5)**: Low noise but persistent blur (Safe but uninformative).
+- **The "DC Attenuation" Discovery**:
+    - **Observation**: We noticed that as $C$ increases, the whole image becomes **Darker**.
+    - **Explanation**: Since our kernel sum is 1.0, its DC gain is 1.0. When $C=0.5$, the gain at the origin becomes $1 / (1 + 0.5) = 0.66$, effectively losing 33% of the image's energy.
+- **Visual Stability**: 
+    - **Issue**: Restoration often pushes pixel values outside the 0-255 range (e.g. negative spikes).
+    - **Solution**: Implemented **`np.clip(result, 0, 255)`** and used explicit `vmin/vmax` in Matplotlib to ensure consistent brightness comparison across different parameters.
+- **Final Result**: Generated `original_and_blurred_and_restored.png` featuring a 3x3 sweep of noise levels (10, 50) and regularization constants (0.01, 0.05).
+
+---
+
 # 🏁 Portfolio Milestone Complete
-All exercises from Tutorial 1 through Tutorial 4 have been successfully implemented, verified, and documented. 
+Tutorial 5 (Exercise 1) is successfully documented. Ready for PCA and Gram-Schmidt analysis.
