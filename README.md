@@ -223,5 +223,40 @@ Recovery of a degraded image ($y = x * k + noise$) using a regularized inverse f
 
 ---
 
+
+### 2. PCA Analysis (Exercise 2, Slide 20)
+Principal Component Analysis on 3D data points using Singular Value Decomposition (SVD).
+
+- **The Mean-Centering Rule**: 
+    - **Implementation**: Subtracted the column-wise mean $[0.66, 1.16, 3.33]$ from the $6 \times 3$ dataset. This is essential for PCA to find the "Axis of Maximum Variance" rather than the "Axis towards the Origin."
+- **Spectral Series Decomposition**: 
+    - **Formula**: $\mathbf{X} = \sum_{i=1}^{3} s_i \cdot \mathbf{u}_i \mathbf{v}_i^H$.
+    - **Verification**: We verified that summing the three rank-1 matrices perfectly reconstructs the original centered data (error $\approx 10^{-16}$).
+- **The "Energy" Interpretation**:
+    - **Insight**: We learned that **Singular Values (S)** are like Standard Deviations, while **Energy/Variance** is represented by **S²** (Eigenvalues).
+    - **Result**: The first component ($S_1 = 8.8$) dominates the dataset, defining a very clear **Regression Line**.
+- **Geometrical Equations**:
+    - **Regression Line**: $y = \text{mean} + c \cdot v_1$.
+    - **Regression Plane**: $y = \text{mean} + a \cdot v_1 + b \cdot v_2$.
+- **Final Result**: Successfully identified the primary 3D direction vector as `[-0.54, 0.64, 0.52]`. See `exercise/DISP_4_2.py`.
+
+---
+
+
+### 3. Gram-Schmidt Orthonormalization (Exercise 3, Slide 20)
+Conversion of the polynomial basis $\{1, n, n^2, n^3, n^4\}$ into an orthonormal set for $n \in [0, 12]$.
+
+- **Numerical Stability**: 
+    - **Implementation**: Added a threshold guard (`if norm_u > 1e-10`) to prevent division-by-zero during normalization, essential for avoiding floating-point amplification errors.
+- **The "Geometric Filtering" Discovery**:
+    - **Concept**: We learned that when vectors are orthonormal, their dot product acts as a **Sieve** or **Filter**, extracting the exact "length" of a signal's contribution in that specific direction.
+- **Function Fitting via Projection**:
+    - **Target**: Fitted the non-polynomial curve $f(n) = 1/(n+1)$ using the 5 orthonormal polynomials.
+    - **Efficiency**: Because the basis was orthonormal, we bypassed matrix inversion entirely—coefficients were calculated through five simple dot products ($c_k = \langle f, e_k \rangle$).
+- **Success Metric**: Reconstructed the original $n^4$ basis vector with an error of only $3.5 \times 10^{-9}$, proving the recursive subtraction logic is mathematically robust.
+- **Final Result**: Generated `gram_schmidt_fit.png` showing the 4th-degree polynomial successfully approximating the sharp $1/(n+1)$ decay. See `exercise/DISP_4_3.py`.
+
+---
+
 # 🏁 Portfolio Milestone Complete
-Tutorial 5 (Exercise 1) is successfully documented. Ready for PCA and Gram-Schmidt analysis.
+Tutorial 5 (Exercises 1, 2, & 3) is successfully documented. Ready for the Harris Corner Detector flowchart.
