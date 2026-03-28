@@ -10,7 +10,8 @@ This repository contains my implementation and technical notes for the Digital I
 | `DISP_1_new.pptx` | DISP Fundamentals | ✅ Complete | `exercise/DISP_1_1.py`, `1_2.py`, `1_3.py` |
 | `DISP_2_new.pptx` | Discrete Fourier Transform | ✅ Complete | `exercise/DISP_2_1, 2, 3, 4.py` |
 | `DISP_3_new.pptx` | Advanced Image Processing | ✅ Complete | `exercise/DISP_3_1.py`, `3_2.py`, `3_4.py` |
-| `DISP_4_new.pptx` | Advanced Topics I | 🏃 In Progress | `exercise/DISP_4_1.py` |
+| `DISP_4_new.pptx` | Advanced Topics I | ✅ Complete | `exercise/DISP_4_1.py`, `4_2.py`, `4_3.py` |
+| `DISP_5_new.pptx` | Advanced Topics II | 🏃 In Progress | `exercise/DISP_5_1.py` |
 
 ---
 
