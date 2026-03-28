@@ -313,8 +313,10 @@ graph TD
     - **Step 2: Construct Structure Tensor Matrix $M$**
 
 $$
-M = \begin{bmatrix} A & C \\\\ C & B \end{bmatrix}
+M = \begin{bmatrix} A & C \\ C & B \end{bmatrix}
 $$
+
+        where $A = X^2 \otimes w$, $B = Y^2 \otimes w$, and $C = (XY) \otimes w$.
 
         where $A = X^2 \otimes w$, $B = Y^2 \otimes w$, and $C = (XY) \otimes w$.
     - **Step 3: Response Function $R$**
