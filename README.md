@@ -267,18 +267,18 @@ graph TD
     Start([Input Image I]) --> Step1
     
     subgraph Step1 ["Step 1: Pre-processing"]
-        Ix["I_x = I * [-1, 0, 1]"]
-        Iy["I_y = I * [-1, 0, 1].T"]
+        X["X = I * [-1, 0, 1]"]
+        Y["Y = I * [-1, 0, 1].T"]
         Smooth["Apply Gaussian Smooth w"]
-        Ix & Iy --> Smooth
+        X & Y --> Smooth
     end
     
     Step1 --> Step2[Step 2: Matrix M Construction]
     
     subgraph "Structure Tensor M"
-        Step2 --> A["A = (I_x² * w)"]
-        Step2 --> B["B = (I_y² * w)"]
-        Step2 --> C["C = (I_x·I_y * w)"]
+        Step2 --> A["A = (X² * w)"]
+        Step2 --> B["B = (Y² * w)"]
+        Step2 --> C["C = (XY * w)"]
     end
     
     A & B & C --> Step3[Step 3: Response Function R]
