@@ -305,26 +305,34 @@ graph TD
 ```
 
 - **Detailed Algorithm Breakdown**:
-    - **Step 1: Pre-processing (Gradients & Smoothing)**
-        - Calculate gradients using discrete convolution:
-            - $X = I \otimes (-1, 0, 1) \approx \frac{\partial I}{\partial x}$
-            - $Y = I \otimes (-1, 0, 1)^T \approx \frac{\partial I}{\partial y}$
-        - Apply Gaussian smoothing window: $w_{u,v} = \exp\left(-\frac{u^2+v^2}{2\sigma^2}\right)$
-    - **Step 2: Construct Structure Tensor Matrix $M$**
+- **Step 1: Pre-processing (Gradients & Smoothing)**
+- Calculate gradients using discrete convolution:
+- $X = I \otimes (-1, 0, 1) \approx \frac{\partial I}{\partial x}$
+- $Y = I \otimes (-1, 0, 1)^T \approx \frac{\partial I}{\partial y}$
+- Apply Gaussian smoothing window: $w_{u,v} = \exp\left(-\frac{u^2+v^2}{2\sigma^2}\right)$
+
+### Step 2: Construct Structure Tensor Matrix $M$
 
 $$
-M = \begin{bmatrix} A & C \\ C & B \end{bmatrix}
+M = \begin{bmatrix} 
+A & C \\
+C & B 
+\end{bmatrix}
 $$
 
-        where $A = X^2 \otimes w$, $B = Y^2 \otimes w$, and $C = (XY) \otimes w$.
-    - **Step 3: Response Function $R$**
-        - $R = \text{Det}(M) - k \cdot \text{Tr}(M)^2$
-        - $\text{Tr}(M) = \alpha + \beta = A + B$
-        - $\text{Det}(M) = \alpha\beta = AB - C^2$
-    - **Step 4: Classification Criteria**
-        - **Corner**: $R > 0$ and $R$ is a **local maximum**. (Both eigenvalues $\alpha, \beta$ are large).
-        - **Edge**: $R < 0$ and $R$ is a **local minimum** in the $x$ or $y$ direction. (One eigenvalue is large).
-        - **Flat**: $R \approx 0$. (Both eigenvalues are small).
+where $A = X^2 \otimes w$, $B = Y^2 \otimes w$, and $C = (XY) \otimes w$.
+
+### Step 3: Response Function $R$
+
+$R = \text{Det}(M) - k \cdot \text{Tr}(M)^2$
+
+where $\text{Tr}(M) = \alpha + \beta = A + B$ and $\text{Det}(M) = \alpha\beta = AB - C^2$.
+
+### Step 4: Classification Criteria
+
+- **Corner**: $R > 0$ and $R$ is a **local maximum**. (Both eigenvalues $\alpha, \beta$ are large).
+- **Edge**: $R < 0$ and $R$ is a **local minimum** in the $x$ or $y$ direction. (One eigenvalue is large).
+- **Flat**: $R \approx 0$. (Both eigenvalues are small).
 
 ---
 
