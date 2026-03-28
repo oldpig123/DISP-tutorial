@@ -267,13 +267,16 @@ graph TD
     Start([Input Image I]) --> Step1
     
     subgraph Step1 ["Step 1: Pre-processing"]
-        X["X = I ⊗ (-1, 0, 1) ≈ ∂I/∂x"]
-        Y["Y = I ⊗ (-1, 0, 1)ᵀ ≈ ∂I/∂y"]
-        Smooth["Apply Gaussian Smooth w"]
-        X & Y --> Smooth
+        subgraph G [Gradients]
+            X["X = I ⊗ (-1, 0, 1) ≈ ∂I/∂x"]
+            Y["Y = I ⊗ (-1, 0, 1)ᵀ ≈ ∂I/∂y"]
+        end
+        subgraph W [Weighting]
+            Smooth["Generate Gaussian Window w"]
+        end
     end
     
-    Step1 --> Step2[Step 2: Matrix M Construction]
+    X & Y & Smooth --> Step2[Step 2: Matrix M Construction]
     
     subgraph "Structure Tensor M"
         Step2 --> A["A = (X² ⊗ w)"]
