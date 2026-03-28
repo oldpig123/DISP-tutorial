@@ -258,5 +258,68 @@ Conversion of the polynomial basis $\{1, n, n^2, n^3, n^4\}$ into an orthonormal
 
 ---
 
+
+### 4. Harris Corner Detector (Exercise 4, Slide 21)
+Visualization of the Harris & Stephens (1988) algorithm flow.
+
+```mermaid
+graph TD
+    Start([Input Image I]) --> Step1[Step 1: Pre-processing]
+    
+    subgraph "Gradient Calculation"
+        Step1 --> Ix["I_x = I * [-1, 0, 1]"]
+        Step1 --> Iy["I_y = I * [-1, 0, 1].T"]
+    end
+    
+    Ix --> Smooth[Gaussian Smoothing w]
+    Iy --> Smooth
+    
+    Smooth --> Step2[Step 2: Matrix M Construction]
+    
+    subgraph "Structure Tensor M"
+        Step2 --> A["A = (I_x² * w)"]
+        Step2 --> B["B = (I_y² * w)"]
+        Step2 --> C["C = (I_x·I_y * w)"]
+    end
+    
+    A & B & C --> Step3[Step 3: Response Function R]
+    
+    subgraph "Eigenvalue Energy"
+        Step3 --> Det["Det(M) = AB - C²"]
+        Step3 --> Tr["Trace(M) = A + B"]
+        Step3 --> R["R = Det - k·Trace²"]
+    end
+    
+    R --> Step4{Step 4: Classification}
+    
+    Step4 -- "R > Threshold (Max)" --> Corner[Corner]
+    Step4 -- "R < -Threshold (Min)" --> Edge[Edge]
+    Step4 -- "|R| ≈ 0" --> Flat[Flat Region]
+    
+    Corner --> End([Detected Features])
+    Edge --> End
+    Flat --> End
+```
+
+- **Detailed Algorithm Breakdown**:
+    - **Step 1: Pre-processing (Gradients & Smoothing)**
+        - Calculate gradients using discrete convolution:
+            - $X = I \otimes (-1, 0, 1) \approx \frac{\partial I}{\partial x}$
+            - $Y = I \otimes (-1, 0, 1)^T \approx \frac{\partial I}{\partial y}$
+        - Apply Gaussian smoothing window: $w_{u,v} = \exp\left(-\frac{u^2+v^2}{2\sigma^2}\right)$
+    - **Step 2: Construct Structure Tensor Matrix $M$**
+        - $M = \begin{bmatrix} A & C \\ C & B \end{bmatrix}$
+        - where $A = X^2 \otimes w$, $B = Y^2 \otimes w$, and $C = (XY) \otimes w$.
+    - **Step 3: Response Function $R$**
+        - $R = \text{Det}(M) - k \cdot \text{Tr}(M)^2$
+        - $\text{Tr}(M) = \alpha + \beta = A + B$
+        - $\text{Det}(M) = \alpha\beta = AB - C^2$
+    - **Step 4: Classification Criteria**
+        - **Corner**: $R > 0$ and $R$ is a **local maximum**. (Both eigenvalues $\alpha, \beta$ are large).
+        - **Edge**: $R < 0$ and $R$ is a **local minimum** in the $x$ or $y$ direction. (One eigenvalue is large).
+        - **Flat**: $R \approx 0$. (Both eigenvalues are small).
+
+---
+
 # 🏁 Portfolio Milestone Complete
-Tutorial 5 (Exercises 1, 2, & 3) is successfully documented. Ready for the Harris Corner Detector flowchart.
+Tutorial 5 is fully documented. Phase 9 is complete.
