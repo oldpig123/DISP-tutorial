@@ -287,13 +287,13 @@ graph TD
     
     A & B & C --> Step3[Step 3: Response Function R]
     
-    subgraph "Eigenvalue Energy"
+    subgraph Step3S ["Step 3: Response Function R"]
         Step3 --> Det["Det(M) = AB - C²"]
         Step3 --> Tr["Tr(M) = A + B"]
-        Step3 --> R["R = Det - k·Tr²"]
+        Det & Tr --> R["R = Det - k·Tr²"]
     end
     
-    R --> Step4{Step 4: Classification}
+    Step3S --> Step4{Step 4: Classification}
     
     Step4 -- "R > 0 and Local Max" --> Corner[Corner]
     Step4 -- "R < 0 and Local Min" --> Edge[Edge]
