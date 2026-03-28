@@ -267,8 +267,8 @@ graph TD
     Start([Input Image I]) --> Step1
     
     subgraph Step1 ["Step 1: Pre-processing"]
-        X["X = I * [-1, 0, 1]"]
-        Y["Y = I * [-1, 0, 1].T"]
+        X["X = I ⊗ (-1, 0, 1) ≈ ∂I/∂x"]
+        Y["Y = I ⊗ (-1, 0, 1)ᵀ ≈ ∂I/∂y"]
         Smooth["Apply Gaussian Smooth w"]
         X & Y --> Smooth
     end
@@ -276,17 +276,17 @@ graph TD
     Step1 --> Step2[Step 2: Matrix M Construction]
     
     subgraph "Structure Tensor M"
-        Step2 --> A["A = (X² * w)"]
-        Step2 --> B["B = (Y² * w)"]
-        Step2 --> C["C = (XY * w)"]
+        Step2 --> A["A = (X² ⊗ w)"]
+        Step2 --> B["B = (Y² ⊗ w)"]
+        Step2 --> C["C = (XY ⊗ w)"]
     end
     
     A & B & C --> Step3[Step 3: Response Function R]
     
     subgraph "Eigenvalue Energy"
         Step3 --> Det["Det(M) = AB - C²"]
-        Step3 --> Tr["Trace(M) = A + B"]
-        Step3 --> R["R = Det - k·Trace²"]
+        Step3 --> Tr["Tr(M) = A + B"]
+        Step3 --> R["R = Det - k·Tr²"]
     end
     
     R --> Step4{Step 4: Classification}
