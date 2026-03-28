@@ -264,17 +264,16 @@ Visualization of the Harris & Stephens (1988) algorithm flow.
 
 ```mermaid
 graph TD
-    Start([Input Image I]) --> Step1[Step 1: Pre-processing]
+    Start([Input Image I]) --> Step1
     
-    subgraph "Gradient Calculation"
-        Step1 --> Ix["I_x = I * [-1, 0, 1]"]
-        Step1 --> Iy["I_y = I * [-1, 0, 1].T"]
+    subgraph Step1 ["Step 1: Pre-processing"]
+        Ix["I_x = I * [-1, 0, 1]"]
+        Iy["I_y = I * [-1, 0, 1].T"]
+        Smooth["Apply Gaussian Smooth w"]
+        Ix & Iy --> Smooth
     end
     
-    Ix --> Smooth[Gaussian Smoothing w]
-    Iy --> Smooth
-    
-    Smooth --> Step2[Step 2: Matrix M Construction]
+    Step1 --> Step2[Step 2: Matrix M Construction]
     
     subgraph "Structure Tensor M"
         Step2 --> A["A = (I_x² * w)"]
@@ -292,9 +291,9 @@ graph TD
     
     R --> Step4{Step 4: Classification}
     
-    Step4 -- "R > Threshold (Max)" --> Corner[Corner]
-    Step4 -- "R < -Threshold (Min)" --> Edge[Edge]
-    Step4 -- "|R| ≈ 0" --> Flat[Flat Region]
+    Step4 -- "R > 0 and Local Max" --> Corner[Corner]
+    Step4 -- "R < 0 and Local Min" --> Edge[Edge]
+    Step4 -- "R ≈ 0" --> Flat[Flat Region]
     
     Corner --> End([Detected Features])
     Edge --> End
