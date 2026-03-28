@@ -311,8 +311,8 @@ graph TD
             - $Y = I \otimes (-1, 0, 1)^T \approx \frac{\partial I}{\partial y}$
         - Apply Gaussian smoothing window: $w_{u,v} = \exp\left(-\frac{u^2+v^2}{2\sigma^2}\right)$
     - **Step 2: Construct Structure Tensor Matrix $M$**
-        - $M = \begin{bmatrix} A & C \\ C & B \end{bmatrix}$
-        - where $A = X^2 \otimes w$, $B = Y^2 \otimes w$, and $C = (XY) \otimes w$.
+        $$M = \begin{bmatrix} A & C \\ C & B \end{bmatrix}$$
+        where $A = X^2 \otimes w$, $B = Y^2 \otimes w$, and $C = (XY) \otimes w$.
     - **Step 3: Response Function $R$**
         - $R = \text{Det}(M) - k \cdot \text{Tr}(M)^2$
         - $\text{Tr}(M) = \alpha + \beta = A + B$
