@@ -398,3 +398,16 @@ Using the standard Euclidean clockwise rotation matrix $\begin{bmatrix} \cos \th
 
 **B. Shearing**:
 Applying a shearing transform matrix $\begin{bmatrix} 1 & S_x \\ S_y & 1 \end{bmatrix}$ via standard linear algebra dot-product operations seamlessly slants the target array.
+
+### 4. Mathematical Harris Corner Detector Implementation (Exercise 4, Slide 27)
+Following the structural blueprint documented during Phase 9, we explicitly programmed a fully vectorized Harris Corner Detector from scratch using highly-optimized spatial filtering math rather than using `cv2.cornerHarris()` abstractions.
+
+**Key Vectorization Architecture:**
+1. **Mathematical Spatial Filters:** Extracted spatial derivatives ($X, Y$) utilizing `cv2.filter2D` coupled with precise mathematical finite difference arrays ($[-1, 0, 1]$ and $[-1, 0, 1]^T$).
+2. **Explicit Gaussian Weighting:** Forwent the `cv2.GaussianBlur` abstraction and explicitly populated a 2D scalar $w$ kernel: $w_{i,j} = \exp\left(-\frac{(i-\mu)^2 + (j-\mu)^2}{2\sigma^2}\right)$ to weigh the $(X^2, Y^2, XY)$ structure tensor components natively.
+3. **Local Max/Min Classification (True NMS):** Replaced simplistic global probability thresholding with proper **Targeted Non-Maximum Suppression (NMS)**. By utilizing Morphological Dilation (`cv2.dilate`) and Erosion (`cv2.erode`), the algorithm explicitly checks $3 \times 3$ grid spaces to condense localized "response blobs" into absolute individual $1$-pixel maxima clusters (identifying 224 precise micro-corners).
+
+---
+
+# 🏁 Portfolio Milestone Complete
+Tutorial 6 is fully documented. Phase 10 is mathematically complete.
