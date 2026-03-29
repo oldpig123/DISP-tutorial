@@ -385,3 +385,16 @@ $$ \text{output}[m, n] = (1-a)(1-b)I_{00} + a(1-b)I_{10} + (1-a)bI_{01} + abI_{1
 
 #### Results & Numpy Broadcasting
 By utilizing advanced NumPy broadcasting and manipulating memory axes (`np.newaxis`), the mathematical grid scaling operates essentially instantaneously. It effortlessly correctly computes bilinear blending bounds for both $2D$ Binary Shapes and dense $3D$ RGB arrays (tested flawlessly against $512 \times 512$ Color target shapes).
+
+### 3. Geometric Affine Transformations (Exercise 3, Slide 23)
+Building on our vectorized inverse mapping logic from Exercise 2, we created a universal `transform(image, matrix)` function capable of applying any arbitrary $2 \times 2$ affine transformation. 
+
+**Advanced Handling:**
+- **Zero-Edge padding:** The script securely handles $3D$ RGB images and prevents "edge dragging/bleeding" artifacts common in OpenCV by multiplying interpolated coordinates against boundary boolean masks (`valid_mask`).
+- **Relative Origin:** All matrices were translated and computed relative to the image's center coordinate $(x_{center}, y_{center})$ rather than the top-left root constraint.
+
+**A. $30^{\circ}$ Clockwise Rotation**:
+Using the standard Euclidean clockwise rotation matrix $\begin{bmatrix} \cos \theta & -\sin \theta \\ \sin \theta & \cos \theta \end{bmatrix}$.
+
+**B. Shearing**:
+Applying a shearing transform matrix $\begin{bmatrix} 1 & S_x \\ S_y & 1 \end{bmatrix}$ via standard linear algebra dot-product operations seamlessly slants the target array.
