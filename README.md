@@ -338,3 +338,35 @@ where $\text{Tr}(M) = \alpha + \beta = A + B$ and $\text{Det}(M) = \alpha\beta =
 
 # 🏁 Portfolio Milestone Complete
 Tutorial 5 is fully documented. Phase 9 is complete.
+
+---
+
+## Phase 10: Advanced Topics II (DISP 5)
+
+This phase explores statistical moments and affine image transformations, corresponding to `DISP_5_new.pptx`.
+
+### 1. Elliptic Image & Statistical Moments (Exercise 1, Slide 23)
+In this exercise, we construct a 2D binary elliptic image mathematically and analyze its "Mass" and spread using Norms and Central Moments.
+
+#### Ellipse Construction
+A $256 \times 256$ binary mask is generated where pixels inside the condition are set to `1` and outside to `0`:
+
+$$ 
+\frac{(x - x_0)^2}{r_x^2} + \frac{(y - y_0)^2}{r_y^2} \leq 1 
+$$
+
+We tested placing the center at $(x_0, y_0) = (64, 128)$ with radii $r_x = 64$ and $r_y = 32$.
+
+#### Image Norms
+By treating the binary image as a 2D matrix, we verified the fundamental definitions of the $L_\alpha$ norm family:
+- **$L_0$ Norm** ($\lim_{\alpha \to 0} L_\alpha$): Number of non-zero pixels (Area = $6417$).
+- **$L_1$ Norm**: Sum of absolute amplitudes ($= 6417$). For a binary mask, $L_0 = L_1$.
+- **$L_2$ Norm**: Euclidean Distance (Square root of sum of squares $\approx 80.11$).
+- **$L_\infty$ Norm**: Maximum amplitude ($= 1$).
+
+#### Central Moments
+We computed the centroid ($\overline{x}, \overline{y}$) and variances. The discrete pixel matrix perfectly matched the theoretical continuous calculus laws for an ellipse:
+- **Centroid**: $\overline{x} = 64.0, \overline{y} = 128.0$ (Exactly matched our parameter inputs).
+- **Covariance** ($\hat{m}_{1,1}$): $0.0$ (Zero due to the perfect upright symmetry).
+- **X-Variance** ($\hat{m}_{2,0}$): $\approx 1023.6$. (Theoretical continuous expectation: $\frac{r_x^2}{4} = \frac{64^2}{4} = 1024$).
+- **Y-Variance** ($\hat{m}_{0,2}$): $\approx 254.8$. (Theoretical continuous expectation: $\frac{r_y^2}{4} = \frac{32^2}{4} = 256$).
