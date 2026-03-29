@@ -370,3 +370,18 @@ We computed the centroid ($\overline{x}, \overline{y}$) and variances. The discr
 - **Covariance** ($\hat{m}_{1,1}$): $0.0$ (Zero due to the perfect upright symmetry).
 - **X-Variance** ($\hat{m}_{2,0}$): $\approx 1023.6$. (Theoretical continuous expectation: $\frac{r_x^2}{4} = \frac{64^2}{4} = 1024$).
 - **Y-Variance** ($\hat{m}_{0,2}$): $\approx 254.8$. (Theoretical continuous expectation: $\frac{r_y^2}{4} = \frac{32^2}{4} = 256$).
+
+### 2. Bilinear Interpolation (Exercise 2, Slide 13)
+To understand fractional resampling, we implemented a vectorized Bilinear Interpolation algorithm entirely from scratch to scale images dynamically, completely avoiding slow nested `for` loops in Python.
+
+#### The Algorithm
+Instead of calculating where each source pixel moves, we mapped the destination grid backward to the source image:
+1. Generate target mathematical coordinates `n_prime, m_prime` for a $1.5M \times 1.6N$ expanded grid.
+2. Determine the original floating-coordinate mapped positions by scaling down by $k=1.5, l=1.6$.
+3. Extract the 4 surrounding anchor corner pixels using `floor()` bounds.
+4. Calculate fractional deviations $a, b$ and perform the weighted positional average:
+
+$$ \text{output}[m, n] = (1-a)(1-b)I_{00} + a(1-b)I_{10} + (1-a)bI_{01} + abI_{11} $$
+
+#### Results & Numpy Broadcasting
+By utilizing advanced NumPy broadcasting and manipulating memory axes (`np.newaxis`), the mathematical grid scaling operates essentially instantaneously. It effortlessly correctly computes bilinear blending bounds for both $2D$ Binary Shapes and dense $3D$ RGB arrays (tested flawlessly against $512 \times 512$ Color target shapes).
