@@ -27,11 +27,11 @@ print("third principal component is: " + str(Vh[2, :]) + " with eigenvalue " + s
 
 # equation of regression line in 3D (with main principal component)
 # y = x_mean + c * Vh[0, :]
-print("equation of regression line: y = " + str(x_mean) + " + c * " + str(Vh[0, :]))
+print("equation of regression line: y = " + str(x_mean) + " + c * " + str(S[0]) + " * " + str(Vh[0, :]))
 
 # equation of regression plane
 # y = x_mean + c_1 * Vh[0, :] + c_2 * Vh[1, :]
-print("equation of regression plane: y = " + str(x_mean) + " + c_1 * " + str(Vh[0, :]) + " + c_2 * " + str(Vh[1, :]))
+print("equation of regression plane: y = " + str(x_mean) + " + c_1 * " + str(S[0]) + " * " + str(Vh[0, :]) + " + c_2 * " + str(S[1]) + " * " + str(Vh[1, :]))
 
 # term0:
 # [[ 1.26777985 -1.49808671 -1.2214064 ]
@@ -64,5 +64,5 @@ print("equation of regression plane: y = " + str(x_mean) + " + c_1 * " + str(Vh[
 # main principal component is: [-0.54844932  0.64808147  0.52838788] with eigenvalue 8.805815341737175
 # second principal component is: [ 0.02915978 -0.61669628  0.78666092] with eigenvalue 2.4397130178629425
 # third principal component is: [-0.83567521 -0.44685132 -0.31932874] with eigenvalue 0.07359726690803713
-# equation of regression line: y = [0.66666667 1.16666667 3.33333333] + c * [-0.54844932  0.64808147  0.52838788]
-# equation of regression plane: y = [0.66666667 1.16666667 3.33333333] + c_1 * [-0.54844932  0.64808147  0.52838788] + c_2 * [ 0.02915978 -0.61669628  0.78666092]
+# equation of regression line: y = [0.66666667 1.16666667 3.33333333] + c * 8.805815341737175 * [-0.54844932  0.64808147  0.52838788]
+# equation of regression plane: y = [0.66666667 1.16666667 3.33333333] + c_1 * 8.805815341737175 * [-0.54844932  0.64808147  0.52838788] + c_2 * 2.4397130178629425 * [ 0.02915978 -0.61669628  0.78666092]

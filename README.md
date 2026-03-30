@@ -237,8 +237,8 @@ Principal Component Analysis on 3D data points using Singular Value Decompositio
     - **Insight**: We learned that **Singular Values (S)** are like Standard Deviations, while **Energy/Variance** is represented by **S²** (Eigenvalues).
     - **Result**: The first component ($S_1 = 8.8$) dominates the dataset, defining a very clear **Regression Line**.
 - **Geometrical Equations**:
-    - **Regression Line**: $y = \text{mean} + c \cdot v_1$.
-    - **Regression Plane**: $y = \text{mean} + a \cdot v_1 + b \cdot v_2$.
+    - **Regression Line**: $y = \text{mean} + c \cdot S_1 \cdot v_1$.
+    - **Regression Plane**: $y = \text{mean} + c_1 \cdot S_1 \cdot v_1 + c_2 \cdot S_2 \cdot v_2$.
 - **Final Result**: Successfully identified the primary 3D direction vector as `[-0.54, 0.64, 0.52]`. See `exercise/DISP_4_2.py`.
 
 ---
