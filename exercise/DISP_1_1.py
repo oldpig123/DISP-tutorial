@@ -3,7 +3,7 @@ import numpy as np
 
 # sobel operator function
 def sobel_operator(img, operator):
-    result = cv2.filter2D(img, cv2.CV_64F, operator)/4.0
+    result = cv2.filter2D(img.astype(np.float64), -1, operator)/4.0
     result = np.abs(result*5)
     result = np.clip(result, 0, 255)
     result = result.astype(np.uint8)
@@ -12,7 +12,7 @@ def sobel_operator(img, operator):
 
 # laplacian operator function
 def laplacian_operator(img, operator):
-    result = cv2.filter2D(img, cv2.CV_64F, operator)/8.0
+    result = cv2.filter2D(img.astype(np.float64), -1, operator)/8.0
     result = np.abs(result*5)
     result = np.clip(result, 0, 255)
     result = result.astype(np.uint8)
@@ -20,6 +20,8 @@ def laplacian_operator(img, operator):
     return result
 
 img = cv2.imread("Pic/peppers.bmp")
+if img is None:
+    raise FileNotFoundError("Could not find Pic/peppers.bmp")
 laplacian = np.array([[-1, -1, -1], [-1, 8, -1], [-1, -1, -1]])
 
 # 1. Using manually construct 2D convolution

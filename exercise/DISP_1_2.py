@@ -36,6 +36,8 @@ def brightness_adjustment_manual(img, alpha):
     
 
 img = cv2.imread("Pic/peppers.bmp")
+if img is None:
+    raise FileNotFoundError("Could not find Pic/peppers.bmp")
 lighten_factor = 0.5
 darken_factor = 2.0
 lighten_cv = brightness_adjustment_cv2(img, lighten_factor)

@@ -30,9 +30,17 @@ def PSNR(img1, img2):
     return psnr
 
 img_original = cv2.imread("Pic/peppers.bmp")
+if img_original is None:
+    raise FileNotFoundError("Could not find Pic/peppers.bmp")
 img_laplacian = cv2.imread("exercise/DISP_1/result_laplacian_manual_convolution.png")
+if img_laplacian is None:
+    raise FileNotFoundError("Could not find exercise/DISP_1/result_laplacian_manual_convolution.png. Please run DISP_1_1.py first.")
 img_lighten_cv = cv2.imread("exercise/DISP_1/lighten_cv.png")
+if img_lighten_cv is None:
+    raise FileNotFoundError("Could not find exercise/DISP_1/lighten_cv.png. Please run DISP_1_2.py first.")
 img_darken_cv = cv2.imread("exercise/DISP_1/darken_cv.png")
+if img_darken_cv is None:
+    raise FileNotFoundError("Could not find exercise/DISP_1/darken_cv.png. Please run DISP_1_2.py first.")
 
 print("NRMSE of Laplacian:", NRMSE(img_original, img_laplacian))
 print("PSNR of Laplacian:", PSNR(img_original, img_laplacian))

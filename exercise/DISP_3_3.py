@@ -53,7 +53,11 @@ def picture_merge(img1, img2, window_size):
 
 # image
 lena = cv2.imread("Pic/gray512/Lena.png")
+if lena is None:
+    raise FileNotFoundError("Could not find Pic/gray512/Lena.png")
 barbara = cv2.imread("Pic/gray512/Barbara.png")
+if barbara is None:
+    raise FileNotFoundError("Could not find Pic/gray512/Barbara.png")
 
 merge_img, img1_low, img2_high = picture_merge(lena, barbara, 30)
 
@@ -67,9 +71,9 @@ merge_img, img1_low, img2_high = picture_merge(lena, barbara, 30)
 lena = cv2.cvtColor(lena, cv2.COLOR_BGR2RGB)
 barbara = cv2.cvtColor(barbara, cv2.COLOR_BGR2RGB)
 # for funtion returned image, we should normalize it first and make it uint8
-img1_low = cv2.normalize(img1_low, None, 0, 255, cv2.NORM_MINMAX)
-img2_high = cv2.normalize(img2_high, None, 0, 255, cv2.NORM_MINMAX)
-merge_img = cv2.normalize(merge_img, None, 0, 255, cv2.NORM_MINMAX)
+img1_low = cv2.normalize(img1_low, img1_low, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX)
+img2_high = cv2.normalize(img2_high, img2_high, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX)
+merge_img = cv2.normalize(merge_img, merge_img, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX)
 img1_low = img1_low.astype(np.uint8)
 img2_high = img2_high.astype(np.uint8)
 merge_img = merge_img.astype(np.uint8)

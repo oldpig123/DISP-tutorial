@@ -1,5 +1,8 @@
 import cv2
+import numpy as np
 image = cv2.imread("Pic/peppers.bmp")
+if image is None:
+    raise FileNotFoundError("Could not find Pic/peppers.bmp")
 print(image.shape) # (height, width, channel) = (512, 512, 3)
 
 # cv2.imshow("image", image)
@@ -39,5 +42,5 @@ cv2.destroyAllWindows()
 
 # save image1 as the result before /255 and save image1/255 as the result after /255
 # save at exercise/multi_media_r_w_2/
-cv2.imwrite("exercise/multi_media_r_w_2/image1_before_div_255.png", image1)
-cv2.imwrite("exercise/multi_media_r_w_2/image1_after_div_255.png", image1/255)
+cv2.imwrite("exercise/multi_media_r_w_2/image1_before_div_255.png", image1.astype(np.uint8))
+cv2.imwrite("exercise/multi_media_r_w_2/image1_after_div_255.png", (image1/255).astype(np.uint8))

@@ -57,6 +57,8 @@ def transform(image, transform_matrix):
 
 # use peppers.bmp to test
 image = cv2.imread("Pic/peppers.bmp")
+if image is None:
+    raise FileNotFoundError("Could not find Pic/peppers.bmp")
 image_output_rotation = transform(image, np.array([[np.cos(30*np.pi/180), -np.sin(30*np.pi/180)], [np.sin(30*np.pi/180), np.cos(30*np.pi/180)]]))
 image_output_shearing = transform(image, np.array([[1, 0], [0.3, 1]]))
 # convert them as rgb

@@ -37,6 +37,8 @@ def resize_bilinear(image, k, l):
 
 # load and test with pepper image
 image = cv2.imread("Pic/peppers.bmp")
+if image is None:
+    raise FileNotFoundError("Could not find Pic/peppers.bmp")
 image_output = resize_bilinear(image, 1.5, 1.6)
 
 # Convert the float64 interpolation result back to uint8!

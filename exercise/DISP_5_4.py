@@ -10,14 +10,14 @@ def harris_corner_detector(image, k, threshold, window_size = 5):
     else:
         gray = image.copy()
 
-    gray = np.float32(gray)
+    gray = gray.astype(np.float32)
 
     # compute the partial derivatives of the image
     # kernel for X and Y
     kernel_x = np.array([[-1, 0, 1]], dtype = np.float32)
     kernel_y = np.array([[-1], [0], [1]], dtype = np.float32)
-    X = cv2.filter2D(gray, cv2.CV_32F, kernel_x)
-    Y = cv2.filter2D(gray, cv2.CV_32F, kernel_y)
+    X = cv2.filter2D(gray, -1, kernel_x)
+    Y = cv2.filter2D(gray, -1, kernel_y)
     
     # gernerate a circular gaussian-like window w
     # w[i, j] = exp(-(i^2 + j^2) / (2 * sigma^2))
@@ -33,9 +33,9 @@ def harris_corner_detector(image, k, threshold, window_size = 5):
     XY = X * Y
     
     # compute the weighted sums of the products of the partial derivatives
-    A = cv2.filter2D(X2, cv2.CV_32F, w)
-    B = cv2.filter2D(Y2, cv2.CV_32F, w)
-    C = cv2.filter2D(XY, cv2.CV_32F, w)
+    A = cv2.filter2D(X2, -1, w)
+    B = cv2.filter2D(Y2, -1, w)
+    C = cv2.filter2D(XY, -1, w)
     
     # compute the Harris corner response function
     det = A * B - C**2
@@ -66,6 +66,8 @@ def harris_corner_detector(image, k, threshold, window_size = 5):
 
 # test with pepper image
 image = cv2.imread("Pic/peppers.bmp")
+if image is None:
+    raise FileNotFoundError("Could not find Pic/peppers.bmp")
 # Using threshold=0.01 (1% of the maximum response)
 output = harris_corner_detector(image, k = 0.04, threshold = 0.01, window_size = 5)
 

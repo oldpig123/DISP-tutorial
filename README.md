@@ -411,3 +411,27 @@ Following the structural blueprint documented during Phase 9, we explicitly prog
 
 # 🏁 Portfolio Milestone Complete
 Tutorial 6 is fully documented. Phase 10 is mathematically complete.
+
+---
+
+# 🛠️ Global Type-Safety & Code Quality Update (March 31, 2026)
+Following a sudden appearance of "No overloads match" and "Optional[Mat]" linter errors across the repository (triggered by modern **Pyright/Pylance** rules and **NumPy 2.x/OpenCV 4.13.x** environment updates), a global codebase modernization was performed.
+
+## Key Modernization Patterns:
+
+### 1. NumPy Array Casting
+- **Issue**: Linter interpreted `np.float32(arr)` as a scalar creator.
+- **Solution**: Replaced with `arr.astype(np.float32)`. This ensures type checkers correctly identify the object as an array (**MatLike**) suitable for OpenCV functions.
+
+### 2. OpenCV Null-Safety
+- **Issue**: `cv2.imread()` returns an `Optional[Mat]`, causing null-safety warnings in subsequent processing.
+- **Solution**: Added explicit `if image is None: raise FileNotFoundError(...)` checks. This "Guards" the logic and satisfies the linter's non-null requirements.
+
+### 3. In-Place Normalization
+- **Issue**: Passing `None` to the `dst` parameter in `cv2.normalize()` is no longer accepted by some strict positional overloads in modern stubs.
+- **Solution**: Switched to in-place normalization: `cv2.normalize(src, src, ...)`. This is mathematically cleaner and matches the `MatLike` protocol perfectly.
+
+### 4. Depth Preservation
+- **Pattern**: Standardized on `ddepth=-1` for `cv2.filter2D()`. When the input array was already pre-casted to float32/float64, using `-1` ensures the output matches that depth exactly without any ambiguity in the linter's eyes.
+
+---

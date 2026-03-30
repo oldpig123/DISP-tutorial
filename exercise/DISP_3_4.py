@@ -117,6 +117,8 @@ def closing(img, kernel,k):
             
 # load lena image
 img = cv2.imread("Pic/gray512/Lena.png", cv2.IMREAD_GRAYSCALE)
+if img is None:
+    raise FileNotFoundError("Could not find Pic/gray512/Lena.png")
 # create a kernel
 kernel = np.ones((3,3), dtype=np.uint8)
 # define how many times to apply the operation
